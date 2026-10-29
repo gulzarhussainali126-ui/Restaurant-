@@ -16,7 +16,7 @@ const SETTINGS = {
   flow: 'ORDER', // ORDER | BOOKING | INFO ONLY
   excelCsvUrl: 'https://drive.google.com/file/d/1g_yqt6NaD7MI0c3nLSrd4e1smWalsFih/view?usp=drivesdk',
   adminCsvUrl: 'https://docs.google.com/spreadsheets/d/1Kj6lmeczrAtastIQj3BHkKQric1o0YmP/edit?usp=drivesdk&ouid=112861465689774402346&rtpof=true&sd=true',
-  knowledgeTextUrl: '',https://drive.google.com/file/d/11SipyNkQhsNh6BstQttVUGtH8V6uYaOO/view?usp=drivesdk
+  knowledgeTextUrl: 'https://drive.google.com/uc?export=download&id=11SipyNkQhsNh6BstQttVUGtH8V6uYaOO',
   deliveryFee: 150,
   deliveryTime: '30-45 minutes',
   payment: { cash: true, jazzcash: 'YOUR_JAZZCASH_ACCOUNT', easypaisa: '' },
