@@ -1,0 +1,86 @@
+name: W-Bot07
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+  schedule:
+    - cron: '0 */5 * * *'
+concurrency:
+  group: w-bot07
+  cancel-in-progress: true
+permissions:
+  contents: write
+jobs:
+  bot:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Wait 25 seconds
+        run: sleep 25
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Restore session
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          if git ls-remote --exit-code --heads origin session >/dev/null 2>&1; then
+            git -c http.extraheader="AUTHORIZATION: basic $(printf 'x-access-token:%s' "$GH_TOKEN" | base64 -w0)" clone --single-branch --branch session "https://github.com/${GITHUB_REPOSITORY}.git" session_bot
+            rm -rf session_bot/.git
+          else
+            mkdir -p session_bot
+          fi
+      - name: Install dependencies
+        run: npm install --omit=dev --no-audit --no-fund
+      - name: Run bot with session backups
+        timeout-minutes: 335
+        shell: bash
+        env:
+          GROQ_API_KEY: ${{ secrets.GROQ_API_KEY }}
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          save_session() {
+            [ -f session_bot/creds.json ] || return 0
+            local temp
+            temp=$(mktemp -d)
+            cp -a session_bot/. "$temp/"
+            (
+              cd "$temp"
+              git init -q
+              git config user.name 'github-actions[bot]'
+              git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+              git checkout -q -b session
+              git add -A
+              git commit -qm 'Backup WhatsApp session' || true
+              git remote add origin "https://github.com/${GITHUB_REPOSITORY}.git"
+              git -c http.extraheader="AUTHORIZATION: basic $(printf 'x-access-token:%s' "$GH_TOKEN" | base64 -w0)" push --force origin session
+            )
+            rm -rf "$temp"
+          }
+          (
+            while true; do
+              sleep 240
+              save_session || echo 'Periodic backup failed'
+            done
+          ) &
+          npm start
+      - name: Save session on exit
+        if: always()
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          [ -f session_bot/creds.json ] || exit 0
+          temp=$(mktemp -d)
+          cp -a session_bot/. "$temp/"
+          cd "$temp"
+          git init -q
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git checkout -q -b session
+          git add -A
+          git commit -qm 'Final WhatsApp session backup' || true
+          git remote add origin "https://github.com/${GITHUB_REPOSITORY}.git"
+          git -c http.extraheader="AUTHORIZATION: basic $(printf 'x-access-token:%s' "$GH_TOKEN" | base64 -w0)" push --force origin session
+          
