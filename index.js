@@ -11,12 +11,12 @@ const SETTINGS = {
   city: 'Lahore',
   callPhone: '03XXXXXXXXX',
   openingHours: 'YOUR_OPENING_HOURS',
-  botNumber: '03XXXXXXXXX',
+  botNumber: '0308 6279581',
   ownerNumber: '',
   flow: 'ORDER', // ORDER | BOOKING | INFO ONLY
-  excelCsvUrl: 'YOUR_PRODUCTS_CSV_URL',
-  adminCsvUrl: 'YOUR_PUBLIC_ADMIN_CSV_URL',
-  knowledgeTextUrl: '', // Optional public plain-text document URL
+  excelCsvUrl: 'https://drive.google.com/file/d/1g_yqt6NaD7MI0c3nLSrd4e1smWalsFih/view?usp=drivesdk',
+  adminCsvUrl: 'https://docs.google.com/spreadsheets/d/1Kj6lmeczrAtastIQj3BHkKQric1o0YmP/edit?usp=drivesdk&ouid=112861465689774402346&rtpof=true&sd=true',
+  knowledgeTextUrl: '',https://drive.google.com/file/d/11SipyNkQhsNh6BstQttVUGtH8V6uYaOO/view?usp=drivesdk
   deliveryFee: 150,
   deliveryTime: '30-45 minutes',
   payment: { cash: true, jazzcash: 'YOUR_JAZZCASH_ACCOUNT', easypaisa: '' },
