@@ -11,7 +11,7 @@ const SETTINGS = {
   city: 'Lahore',
   callPhone: '03XXXXXXXXX',
   openingHours: 'YOUR_OPENING_HOURS',
-  botNumber: '0308 6279581',
+  botNumber: '03086279581',
   ownerNumber: '',
   flow: 'ORDER', // ORDER | BOOKING | INFO ONLY
   excelCsvUrl: 'https://drive.google.com/file/d/1g_yqt6NaD7MI0c3nLSrd4e1smWalsFih/view?usp=drivesdk',
